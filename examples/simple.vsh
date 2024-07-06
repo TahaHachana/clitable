@@ -1,14 +1,23 @@
 import clitable
 
-fn main() {
-	// Define table data
-	table := [
-		['Name', 'Age', 'Occupation'],
-		['Alice', '30', 'Engineer'],
-		['Bob', '24', 'Designer'],
-		['Charlie', '29', 'Teacher'],
-	]
+mut table := clitable.Table{}
 
-	// Print the table using the vtable module
-	clitable.print_table(table)
-}
+table.add_column('Name')
+table.add_column('Age')
+table.add_column('Occupation')
+
+table.add_row(['Alice', '30', 'Engineer'])
+table.add_row(['Bob', '24', 'Designer'])
+table.add_row(['Charlie', '29', 'Teacher'])
+
+clitable.print_table(table)
+
+// Output:
+// Name     Age  Occupation  
+// --------------------------
+// Alice    30   Engineer    
+// --------------------------
+// Bob      24   Designer    
+// --------------------------
+// Charlie  29   Teacher     
+// --------------------------
