@@ -13,11 +13,12 @@ table.add_row(['Charlie', '29', 'Teacher'])
 clitable.print_table(table)
 
 // Output:
-// Name     Age  Occupation  
-// --------------------------
-// Alice    30   Engineer    
-// --------------------------
-// Bob      24   Designer    
-// --------------------------
-// Charlie  29   Teacher     
-// --------------------------
+// ┌─────────┬─────┬────────────┐
+// │ Name    │ Age │ Occupation │
+// ├─────────┼─────┼────────────┤
+// │ Alice   │ 30  │ Engineer   │
+// ├─────────┼─────┼────────────┤
+// │ Bob     │ 24  │ Designer   │
+// ├─────────┼─────┼────────────┤
+// │ Charlie │ 29  │ Teacher    │
+// └─────────┴─────┴────────────┘
