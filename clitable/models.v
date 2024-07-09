@@ -34,7 +34,8 @@ pub struct Table {
 mut:
 	columns []Column
 	rows    []Row
-	pub mut: padding int = 1
+pub mut:
+	padding int = 1
 }
 
 pub fn (mut t Table) add_column(name string) {

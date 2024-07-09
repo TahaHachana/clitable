@@ -1,13 +1,12 @@
 module clitable
 
-// 2D string array from struct array
-fn structs_to_2darrary[T](structs []T) [][]string {
-	mut headers := []string{}
+// Table from struct array
+pub fn table_from_structs[T](structs []T) Table {
+	mut columns := []Column{}
 	$for field in T.fields {
-		headers << field.name
+		columns << Column.new(field.name)
 	}
-	mut rows := [][]string{}
-	rows << headers
+	mut rows := []Row{}
 
 	for s in structs {
 		mut values := []string{}
@@ -18,7 +17,11 @@ fn structs_to_2darrary[T](structs []T) [][]string {
 				values << s.$(field.name).str()
 			}
 		}
-		rows << values
+		rows << Row.new(values)
 	}
-	return rows
+	return Table{
+		columns: columns
+		rows: rows
+		padding: 1
+	}
 }

@@ -97,3 +97,8 @@ pub fn print_table(table Table) {
 	// Print bottom border
 	print_bottom_border(widths, clitable.light_up_and_right, padding)
 }
+
+pub fn print_structs[T](structs []T) {
+	table := table_from_structs(structs)
+	print_table(table)
+}
