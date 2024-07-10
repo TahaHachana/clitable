@@ -73,11 +73,13 @@ struct BorderStyle {
 pub enum Border {
 	square
 	rounded
+	ascii
 }
 
 fn (b Border) get_style() BorderStyle {
 	return match b {
 		.square { square_border_style }
 		.rounded { rounded_border_style }
+		.ascii { ascii_border_style }
 	}
 }

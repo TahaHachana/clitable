@@ -1,6 +1,8 @@
 import clitable
 
-mut table := clitable.Table{}
+mut table := clitable.Table{
+	border: clitable.Border.ascii
+}
 
 table.add_column('Name')
 table.add_column('Age')
@@ -13,7 +15,7 @@ table.add_row(['Charlie', '29', 'Teacher'])
 clitable.print_table(table)
 
 // Output:
-// ┌─────────┬─────┬────────────┐
+// ╭─────────┬─────┬────────────╮
 // │ Name    │ Age │ Occupation │
 // ├─────────┼─────┼────────────┤
 // │ Alice   │ 30  │ Engineer   │
@@ -21,11 +23,4 @@ clitable.print_table(table)
 // │ Bob     │ 24  │ Designer   │
 // ├─────────┼─────┼────────────┤
 // │ Charlie │ 29  │ Teacher    │
-// └─────────┴─────┴────────────┘
-
-// +-------+-------+
-// | Foo   | Bar   |
-// |-------+-------|
-// | Baz   | Qux   |
-// | Corgi | Waldo |
-// +-------+-------+
+// ╰─────────┴─────┴────────────╯
