@@ -36,6 +36,7 @@ mut:
 	rows    []Row
 pub mut:
 	padding int = 1
+	border  BorderStyle = square_border_style
 }
 
 pub fn (mut t Table) add_column(name string) {
@@ -47,4 +48,24 @@ pub fn (mut t Table) add_row(values []string) {
 		panic('Number of values does not match number of columns')
 	}
 	t.rows << Row.new(values)
+}
+
+enum HorizontalBorder {
+	top
+	separator
+	bottom
+}
+
+struct BorderStyle {
+	light_horizontal              string
+	light_vertical                string
+	light_down_and_right          string
+	light_down_and_left           string
+	light_up_and_right            string
+	light_up_and_left             string
+	light_vertical_and_right      string
+	light_vertical_and_left       string
+	light_down_and_horizontal     string
+	light_up_and_horizontal       string
+	light_vertical_and_horizontal string
 }
