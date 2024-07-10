@@ -35,8 +35,8 @@ mut:
 	columns []Column
 	rows    []Row
 pub mut:
-	padding int = 1
-	border  BorderStyle = square_border_style
+	padding int    = 1
+	border  Border = .square
 }
 
 pub fn (mut t Table) add_column(name string) {
@@ -68,4 +68,16 @@ struct BorderStyle {
 	light_down_and_horizontal     string
 	light_up_and_horizontal       string
 	light_vertical_and_horizontal string
+}
+
+pub enum Border {
+	square
+	rounded
+}
+
+fn (b Border) get_style() BorderStyle {
+	return match b {
+		.square { square_border_style }
+		.rounded { rounded_border_style }
+	}
 }

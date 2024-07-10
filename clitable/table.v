@@ -2,21 +2,6 @@ module clitable
 
 import arrays
 
-// Square style box drawing characters
-const square_border_style = BorderStyle{
-	light_horizontal: '─'
-	light_vertical: '│'
-	light_down_and_right: '┌'
-	light_down_and_left: '┐'
-	light_up_and_right: '└'
-	light_up_and_left: '┘'
-	light_vertical_and_right: '├'
-	light_vertical_and_left: '┤'
-	light_down_and_horizontal: '┬'
-	light_up_and_horizontal: '┴'
-	light_vertical_and_horizontal: '┼'
-}
-
 fn print_horizontal_border(widths []int, border HorizontalBorder, border_style BorderStyle, padding int) {
 	mut acc := ''
 	for i, width in widths {
@@ -71,7 +56,7 @@ pub fn print_table(table Table) {
 	columns := table.columns.map(|c| c.name)
 	rows := arrays.append([columns], table.rows.map(|r| r.values))
 	padding := table.padding
-	border_style := table.border
+	border_style := table.border.get_style()
 
 	if rows.len == 0 {
 		println('Empty table')
@@ -97,7 +82,7 @@ pub fn print_table(table Table) {
 	}
 
 	// Print last row without separator line
-	println(format_row(rows[rows.len - 1], widths,  border_style,padding))
+	println(format_row(rows[rows.len - 1], widths, border_style, padding))
 
 	// Print bottom border
 	print_horizontal_border(widths, HorizontalBorder.bottom, border_style, padding)
