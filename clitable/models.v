@@ -75,6 +75,7 @@ pub enum Border {
 	rounded
 	ascii
 	double
+	heavy
 }
 
 fn (b Border) get_style() BorderStyle {
@@ -83,5 +84,6 @@ fn (b Border) get_style() BorderStyle {
 		.rounded { rounded_border_style }
 		.ascii { ascii_border_style }
 		.double { double_border_style }
+		.heavy { heavy_border_style }
 	}
 }

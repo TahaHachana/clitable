@@ -59,3 +59,18 @@ const double_border_style = BorderStyle{
 	light_up_and_horizontal: '╩'
 	light_vertical_and_horizontal: '╬'
 }
+
+// Heavy line style box drawing characters
+const heavy_border_style = BorderStyle{
+	light_horizontal: '━'
+	light_vertical: '┃'
+	light_down_and_right: '┏'
+	light_down_and_left: '┓'
+	light_up_and_right: '┗'
+	light_up_and_left: '┛'
+	light_vertical_and_right: '┣'
+	light_vertical_and_left: '┫'
+	light_down_and_horizontal: '┳'
+	light_up_and_horizontal: '┻'
+	light_vertical_and_horizontal: '╋'
+}
