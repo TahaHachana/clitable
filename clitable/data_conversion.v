@@ -1,6 +1,6 @@
 module clitable
 
-// Table from struct array
+// table_from_structs converts an array of structs into a Table.
 pub fn table_from_structs[T](structs []T) Table {
 	mut columns := []Column{}
 	$for field in T.fields {
