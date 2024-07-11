@@ -51,7 +51,7 @@ fn format_row(row []string, widths []int, border_style BorderStyle, padding int)
 	return border_style.light_vertical + formatted_row
 }
 
-// Print the table
+// print_table pretty prints a table to the console
 pub fn print_table(table Table) {
 	columns := table.columns.map(|c| c.name)
 	rows := arrays.append([columns], table.rows.map(|r| r.values))
@@ -88,6 +88,7 @@ pub fn print_table(table Table) {
 	print_horizontal_border(widths, HorizontalBorder.bottom, border_style, padding)
 }
 
+// print_structs pretty prints an array of structs as a table
 pub fn print_structs[T](structs []T) {
 	table := table_from_structs(structs)
 	print_table(table)

@@ -74,6 +74,7 @@ pub enum Border {
 	square
 	rounded
 	ascii
+	double
 }
 
 fn (b Border) get_style() BorderStyle {
@@ -81,5 +82,6 @@ fn (b Border) get_style() BorderStyle {
 		.square { square_border_style }
 		.rounded { rounded_border_style }
 		.ascii { ascii_border_style }
+		.double { double_border_style }
 	}
 }
