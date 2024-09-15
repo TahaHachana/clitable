@@ -29,8 +29,8 @@ fn print_horizontal_border(widths []int, border HorizontalBorder, border_style B
 }
 
 // Calculate the maximum width of each column
-fn calculate_column_widths(table [][]string) []int {
-	mut widths := []int{len: table[0].len, init: 0}
+fn calculate_column_widths(table [][]string, columns []Column) []int {
+	mut widths := table[0].map(it.len)
 	for row in table {
 		for i, cell in row {
 			if cell.len > widths[i] {
@@ -38,23 +38,44 @@ fn calculate_column_widths(table [][]string) []int {
 			}
 		}
 	}
+	for i, column in columns {
+		if column.width != none {
+			widths[i] = column.width or { 0 }
+		}
+	}
 	return widths
 }
 
 // Create a formatted string for a row based on column widths
 fn format_row(row []string, widths []int, border_style BorderStyle, padding int) string {
-	mut formatted_row := ''
+	mut row_wrapped := [][]string{}
 	for i, cell in row {
-		formatted_row += ' '.repeat(padding) + cell + ' '.repeat(widths[i] - cell.len) +
-			' '.repeat(padding) + border_style.light_vertical
+		lines := arrays.chunk(cell.split(''), widths[i]).map(it.join(''))
+		row_wrapped << lines
 	}
-	return border_style.light_vertical + formatted_row
+	max_len := arrays.max(row_wrapped.map(it.len)) or { panic(err) }
+	mut lines := []string{}
+	for i in 0 .. max_len {
+		mut sub_row := []string{}
+		for sub_cell in row_wrapped {
+			sub_row << sub_cell[i] or { '' }
+		}
+		mut formatted_row := ''
+		for j, sub_cell in sub_row {
+			formatted_row += ' '.repeat(padding) + sub_cell.trim_space() +
+				' '.repeat(widths[j] - sub_cell.trim_space().len) + ' '.repeat(padding) +
+				border_style.light_vertical
+		}
+		lines << border_style.light_vertical + formatted_row
+	}
+	return lines.join('\n')
 }
 
 // print_table pretty prints a table to the console
 pub fn print_table(table Table) {
-	columns := table.columns.map(|c| c.name)
-	rows := arrays.append([columns], table.rows.map(|r| r.values))
+	columns := table.columns
+	column_names := table.columns.map(|c| c.name)
+	rows := arrays.append([column_names], table.rows.map(|r| r.values))
 	padding := table.padding
 	border_style := table.border.get_style()
 
@@ -64,7 +85,7 @@ pub fn print_table(table Table) {
 	}
 
 	// Calculate column widths
-	widths := calculate_column_widths(rows)
+	widths := calculate_column_widths(rows, columns)
 
 	// Print top border
 	print_horizontal_border(widths, HorizontalBorder.top, border_style, padding)

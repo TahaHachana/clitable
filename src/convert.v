@@ -4,7 +4,7 @@ module clitable
 pub fn table_from_structs[T](structs []T) Table {
 	mut columns := []Column{}
 	$for field in T.fields {
-		columns << Column.new(field.name)
+		columns << Column.new(field.name, ?int(none))
 	}
 	mut rows := []Row{}
 

@@ -1,7 +1,9 @@
 module clitable
 
 pub struct Column {
-	name string
+mut:
+	name  string
+	width ?int
 }
 
 fn Column.new(name string) Column {
