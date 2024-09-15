@@ -1,10 +1,9 @@
 module clitable
 
 pub struct Table {
-mut:
+pub mut:
 	columns []Column
 	rows    []Row
-pub mut:
 	padding int    = 1
 	border  Border = .square
 }
