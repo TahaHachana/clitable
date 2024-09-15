@@ -1,7 +1,7 @@
 module clitable
 
 pub struct Column {
-mut:
+pub mut:
 	name  string
 	width ?int
 }
