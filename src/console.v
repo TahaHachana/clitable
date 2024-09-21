@@ -46,30 +46,57 @@ fn calculate_column_widths(table [][]string, columns []Column) []int {
 	return widths
 }
 
-// Create a formatted string for a row based on column widths
+fn split_cell(cell string, width int) []string {
+	return arrays.chunk(cell.split(''), width).map(it.join(''))
+}
+
+fn format_line(cells []string, widths []int, border_style BorderStyle, padding int) string {
+	return arrays.map_indexed(cells, (fn [widths, padding] (i int, cell string) string {
+		padded_cell := ' '.repeat(padding) + cell.trim_space() +
+			' '.repeat(widths[i] - cell.trim_space().len) + ' '.repeat(padding)
+		return padded_cell
+	})).join(border_style.light_vertical)
+}
+
 fn format_row(row []string, widths []int, border_style BorderStyle, padding int) string {
-	mut row_wrapped := [][]string{}
-	for i, cell in row {
-		lines := arrays.chunk(cell.split(''), widths[i]).map(it.join(''))
-		row_wrapped << lines
-	}
+	row_wrapped := arrays.map_indexed(row, fn [widths] (i int, cell string) []string {
+		return split_cell(cell, widths[i])
+	})
 	max_len := arrays.max(row_wrapped.map(it.len)) or { panic(err) }
-	mut lines := []string{}
-	for i in 0 .. max_len {
-		mut sub_row := []string{}
-		for sub_cell in row_wrapped {
-			sub_row << sub_cell[i] or { '' }
-		}
-		mut formatted_row := ''
-		for j, sub_cell in sub_row {
-			formatted_row += ' '.repeat(padding) + sub_cell.trim_space() +
-				' '.repeat(widths[j] - sub_cell.trim_space().len) + ' '.repeat(padding) +
-				border_style.light_vertical
-		}
-		lines << border_style.light_vertical + formatted_row
-	}
+	lines := []int{len: max_len, init: index}.map(fn [row_wrapped, border_style, widths, padding] (i int) string {
+		sub_row := row_wrapped.map(fn [i] (sub_cell []string) string {
+			return sub_cell[i] or { '' }
+		})
+		return border_style.light_vertical + format_line(sub_row, widths, border_style, padding) +
+			border_style.light_vertical
+	})
 	return lines.join('\n')
 }
+
+// Create a formatted string for a row based on column widths
+// fn format_row(row []string, widths []int, border_style BorderStyle, padding int) string {
+// 	mut row_wrapped := [][]string{}
+// 	for i, cell in row {
+// 		lines := arrays.chunk(cell.split(''), widths[i]).map(it.join(''))
+// 		row_wrapped << lines
+// 	}
+// 	max_len := arrays.max(row_wrapped.map(it.len)) or { panic(err) }
+// 	mut lines := []string{}
+// 	for i in 0 .. max_len {
+// 		mut sub_row := []string{}
+// 		for sub_cell in row_wrapped {
+// 			sub_row << sub_cell[i] or { '' }
+// 		}
+// 		mut formatted_row := ''
+// 		for j, sub_cell in sub_row {
+// 			formatted_row += ' '.repeat(padding) + sub_cell.trim_space() +
+// 				' '.repeat(widths[j] - sub_cell.trim_space().len) + ' '.repeat(padding) +
+// 				border_style.light_vertical
+// 		}
+// 		lines << border_style.light_vertical + formatted_row
+// 	}
+// 	return lines.join('\n')
+// }
 
 // print_table pretty prints a table to the console
 pub fn print_table(table Table) {
